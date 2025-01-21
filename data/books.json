@@ -1,0 +1,44 @@
+{
+    "books": [
+      {
+        "id": "1",
+        "name": "The Hobbit",
+        "author": "J.R.R. Tolkien",
+        "genre": "Fantasy",
+        "price": "12.99",
+        "publisher": "Houghton Mifflin"
+      },
+       {
+        "id": "2",
+        "name": "The Fault in Our Stars",
+        "author": "John Green",
+        "genre": "Romance",
+        "price": "11.6",
+        "publisher": "Dutton Books"
+      },
+      {
+        "id": "3",
+        "name": "The Land Before Time",
+        "author": "Alan Moore",
+        "genre": "Fantasy",
+        "price": "12.99",
+        "publisher": "Houghton Mifflin"
+      },
+      {
+        "id": "4",
+        "name": "Gone Girl",
+        "author": "Gillian Flynn",
+        "genre": "Mystery/Thriller",
+        "price": "13.11",
+        "publisher": "Crown Publishing Group"
+      },
+      {
+        "id": "5",
+        "name": "Animal Farm",
+        "author": "George Orwell",
+        "genre": "Political Satire",
+        "price": "12.44",
+        "publisher": "Secker & Warburg"
+      }
+    ]
+  }
