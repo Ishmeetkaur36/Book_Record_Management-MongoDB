@@ -10,14 +10,14 @@ dotenv.config();
 
 const app = express();
 
-DbConnection(); 
+DbConnection();
 
 const PORT = 8081;
 
 app.use(express.json());
 
 
- app.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).json({
     message: "Server is up and running :-)",
     data: "hey",
