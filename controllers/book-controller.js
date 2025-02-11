@@ -1,4 +1,6 @@
 const { UserModel, BookModel } = require("../models/index.js");
+const issuedBook = require("../dtos/book-dto.js");
+const IssuedBook = require("../dtos/book-dto.js");
 
 //const getAllBooks = () => {};
 exports.getAllBooks = async (req, res) => {
@@ -40,7 +42,8 @@ exports.getAllIssuedBooks = async (req, res) => {
   }).populate("issuedBook");
 
   //Data Tranfer objects
-  //const issuedBooks = users.map((each) => new issuedBook(each))
+  const issuedBooks = users.map((each) => new issuedBook(each));
+
   if (issuedBooks.length === 0) {
     return res.status(404).json({
       success: false,
@@ -52,5 +55,33 @@ exports.getAllIssuedBooks = async (req, res) => {
     message: "USERS WITH ISSUED BOOKS",
     data: issuedBooks,
   });
-}
+};
 
+exports.addNewBook = async (req, res) => {
+  const {data} = req.body;
+
+  if(!data){
+    return res.status(400).json({
+      success: false,
+      message: "No Data To Add A Book"
+    });
+  }
+    await BookModel.create(data);
+    const allBooks = await BookModel.find();
+    
+      return res.status(201).json({
+        success: true,
+        message: "Added Book Successfully",
+        data: allBooks,
+      });
+    
+};
+
+exports.updateBookById = async (req, res) => {
+  const {id} = req.params;
+  const {data} = req.body;
+
+  const updatedBook = await BookModel.findOneAndUpdate({}, data, {
+    new: true,
+  });
+};
