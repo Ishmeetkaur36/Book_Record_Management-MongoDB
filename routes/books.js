@@ -144,7 +144,7 @@ router.post("/" , addNewBook);
 ^ Parameters: id
 */
 
-router.put("/" , updateBookById);
+router.put("/updateBook/:id" , updateBookById);
 // router.put("/update/:id", (req, res) => {
 //   const { id } = req.params;
 //   const { data } = req.body;
