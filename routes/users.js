@@ -1,8 +1,16 @@
 const express = require("express");
+const {
+  getAllUsers,
+  getSingleUserById,
+  deleteUser,
+  updateUserData,
+  createNewUser,
+  getSubscriptionDetailsById,
+} = require("../controllers/user-controller");
 const { users } = require("../data/users.json");
-const router = express.Router();
-const { UserModel, BookModel } = require("../models/index.js");
 
+const { UserModel, BookModel } = require("../models");
+const router = express.Router();
 
 //& http://localhost:8081/users
 
@@ -14,13 +22,13 @@ const { UserModel, BookModel } = require("../models/index.js");
  * Parameters: None
  */
 
-router.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    data: users,
-  });
-});
-
+// router.get("/", (req, res) => {
+//   res.status(200).json({
+//     success: true,
+//     data: users,
+//   });
+// });
+router.get("/",getAllUsers);
 
 
 /*
@@ -30,21 +38,23 @@ router.get("/", (req, res) => {
  * Access: Public
  * Parameters: id
  */
-router.get("/:id", (req, res) => {
-  const { id } = req.params;
-  const user = users.find((each) => each.id === id);
-  if (!user) {
-    return res.status(404).json({
-      success: false,
-      message: "USER DOES NOT EXIT !",
-    });
-  }
-  return res.status(200).json({
-    succuss: true,
-    message: "USER FOUND",
-    data: user,
-  });
-});
+// router.get("/:id", (req, res) => {
+//   const { id } = req.params;
+//   const user = users.find((each) => each.id === id);
+//   if (!user) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "USER DOES NOT EXIT !",
+//     });
+//   }
+//   return res.status(200).json({
+//     succuss: true,
+//     message: "USER FOUND",
+//     data: user,
+//   });
+// });
+router.get("/:id",getSingleUserById);
+
 
 /*
  * Route: /users
@@ -53,31 +63,34 @@ router.get("/:id", (req, res) => {
  * Access: Public
  * Parameters: none
  */
-router.post("/", (req, res) => {
-  const { id, name, surname, email, subscriptionType, subscriptionDate } = req.body;
+// router.post("/", (req, res) => {
+//   const { id, name, surname, email, subscriptionType, subscriptionDate } = req.body;
 
-  const user = users.find((each) => each.id === id)
-  if (user) {
-    return res.status(404).json({
-      success: false,
-      messsage: "User with this ID already exists!",
-    });
-  }
+//   const user = users.find((each) => each.id === id)
+//   if (user) {
+//     return res.status(404).json({
+//       success: false,
+//       messsage: "User with this ID already exists!",
+//     });
+//   }
 
-  users.push({
-    id,
-    name,
-    surname,
-    email,
-    subscriptionType,
-    subscriptionDate
-  });
-  return res.status(201).json({
-    success: true,
-    message: "USER ADDED SUCCESSFULLY",
-    data: users,
-  });
-});
+//   users.push({
+//     id,
+//     name,
+//     surname,
+//     email,
+//     subscriptionType,
+//     subscriptionDate
+//   });
+//   return res.status(201).json({
+//     success: true,
+//     message: "USER ADDED SUCCESSFULLY",
+//     data: users,
+//   });
+// });
+router.post("/", createNewUser);
+
+
 
 /*
  * Route: /users/:id
@@ -86,32 +99,34 @@ router.post("/", (req, res) => {
  * Access: Public
  * Parameters: id
  */
-router.put("/:id", (req, res) => {
-  const { id } = req.params;
-  const { data } = req.body;
+// router.put("/:id", (req, res) => {
+//   const { id } = req.params;
+//   const { data } = req.body;
 
-  const user = users.find((each) => each.id === id);
-  if (!user) {
-    return res.status(404).json({
-      success: false,
-      message: "USER DOES NOT EXIST !",
-    });
-  }
-  const updateUserData = users.map((each) => {
-    if (each.id === id) {
-      return {
-        ...each,
-        ...data,
-      };
-    }
-    return each;
-  });
-  return res.status(200).json({
-    success: true,
-    message: "USER UPDATED SUCCESSFULLY",
-    data: updateUserData,
-  });
-});
+//   const user = users.find((each) => each.id === id);
+//   if (!user) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "USER DOES NOT EXIST !",
+//     });
+//   }
+//   const updateUserData = users.map((each) => {
+//     if (each.id === id) {
+//       return {
+//         ...each,
+//         ...data,
+//       };
+//     }
+//     return each;
+//   });
+//   return res.status(200).json({
+//     success: true,
+//     message: "USER UPDATED SUCCESSFULLY",
+//     data: updateUserData,
+//   });
+// });
+router.put("/:id", updateUserData);
+
 
 /*
  * Route: /users/:id
@@ -120,23 +135,26 @@ router.put("/:id", (req, res) => {
  * Access: Public
  * Parameters: id
  */
-router.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  const user = users.find((each) => each.id === id);
-  if (!user) {
-    return res.status(404).json({
-      success: false,
-      message: "USER ID DOES NOT EXITS !",
-    });
-  }
-  const index = users.indexOf(user);
-  users.splice(index, 1);
-  return res.status(200).json({
-    success: true,
-    message: "USER DELETED",
-    data: users,
-  });
-});
+// router.delete("/:id", (req, res) => {
+//   const { id } = req.params;
+//   const user = users.find((each) => each.id === id);
+//   if (!user) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "USER ID DOES NOT EXITS !",
+//     });
+//   }
+//   const index = users.indexOf(user);
+//   users.splice(index, 1);
+//   return res.status(200).json({
+//     success: true,
+//     message: "USER DELETED",
+//     data: users,
+//   });
+// });
+router.delete("/:id", deleteUser);
+
+
 
 /*
  * Route: /users/subscriptionDetails/:id
@@ -145,70 +163,71 @@ router.delete("/:id", (req, res) => {
  * Access: Public
  * Parameters: id
  */
-router.get("/subscriptionDetails/:id", (req, res) => {
-  const { id } = req.params;
-  const user = users.find((each) => each.id === id);
+// router.get("/subscriptionDetails/:id", (req, res) => {
+//   const { id } = req.params;
+//   const user = users.find((each) => each.id === id);
 
-  if (!user) {
-    return res.status(404).json({
-      success: false,
-      message: "USER WITH GIVEN ID DOES NOT EXIST !",
-    });
-  }
+//   if (!user) {
+//     return res.status(404).json({
+//       success: false,
+//       message: "USER WITH GIVEN ID DOES NOT EXIST !",
+//     });
+//   }
 
-  const getDateInDays = (data = "") => {
-    let date;
-    if (data === "") {
-      date = new Date();                    //Current date
-    }
-    else {
-      date = new Date(data);                //Provided Date
-    }
+//   const getDateInDays = (data = "") => {
+//     let date;
+//     if (data === "") {
+//       date = new Date();                    //Current date
+//     }
+//     else {
+//       date = new Date(data);                //Provided Date
+//     }
 
-    //~ Calculates no of days from current day
-    let days = Math.floor(date / (1000 * 60 * 60 * 24));
-    return days;
+//     //~ Calculates no of days from current day
+//     let days = Math.floor(date / (1000 * 60 * 60 * 24));
+//     return days;
 
-  };
-  const subscriptionType = (date) => {
-    if ((user.subscriptionType == "Basic")) {
-      date = date + 90;
-    }
-    else if ((user.subscriptionType == "Standard")) {
-      date = date + 180;
-    }
-    if ((user.subscriptionType == "Premium")) {
-      date = date + 365;
-    }
-    return date;
-  };
+//   };
+//   const subscriptionType = (date) => {
+//     if ((user.subscriptionType == "Basic")) {
+//       date = date + 90;
+//     }
+//     else if ((user.subscriptionType == "Standard")) {
+//       date = date + 180;
+//     }
+//     if ((user.subscriptionType == "Premium")) {
+//       date = date + 365;
+//     }
+//     return date;
+//   };
 
-  let returnDate = getDateInDays(user.returnDate);
-  let currentDate = getDateInDays();
-  let subscriptionDate = getDateInDays(user.subscriptionDate);
-  let subscriptionExpiration = subscriptionType(subscriptionDate);
+//   let returnDate = getDateInDays(user.returnDate);
+//   let currentDate = getDateInDays();
+//   let subscriptionDate = getDateInDays(user.subscriptionDate);
+//   let subscriptionExpiration = subscriptionType(subscriptionDate);
 
-  const data = {
-    ...users,
-    isSubscriptionExpired: subscriptionExpiration <= currentDate,
-    daysLeftForExpiration:
-      subscriptionExpiration <= currentDate ?
-        0
-        : subscriptionExpiration - currentDate,
-    fine:
-      returnDate < currentDate ?
-        subscriptionExpiration <= currentDate ?
-          100
-          : 50
-        : 0,
-  };
-  return res.status(200).json({
-    success: true,
-    message: "SUBSCRIPTION DETAILS",
-    data,
-  });
+//   const data = {
+//     ...users,
+//     isSubscriptionExpired: subscriptionExpiration <= currentDate,
+//     daysLeftForExpiration:
+//       subscriptionExpiration <= currentDate ?
+//         0
+//         : subscriptionExpiration - currentDate,
+//     fine:
+//       returnDate < currentDate ?
+//         subscriptionExpiration <= currentDate ?
+//           100
+//           : 50
+//         : 0,
+//   };
+//   return res.status(200).json({
+//     success: true,
+//     message: "SUBSCRIPTION DETAILS",
+//     data,
+//   });
 
 
-});
+// });
+router.get("/subscription-details/:id", getSubscriptionDetailsById);
 
 module.exports = router;
