@@ -1,1 +1,2 @@
 # Book_Record_Management-MongoDB
+Book Record Management is a MongoDB-based backend project designed to efficiently store, manage, and retrieve book-related data. The system supports core operations such as adding, updating, deleting, and searching book records, ensuring structured data handling and fast access through a NoSQL database. Built with a focus on scalability and performance, this project demonstrates practical backend development skills, database design using MongoDB, and the implementation of CRUD operations for real-world data management scenarios.
